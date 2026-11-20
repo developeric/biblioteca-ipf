@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ESPACIO, OPACIDAD, RADIO, TAMANIO, TAMANIO_TEXTO } from '@/constants/tema';
 import { useEstilos } from '@/hooks/useEstilos';
 import { crearHojas } from '@/lib/estilos';
+import { contar } from '@/lib/textos';
 import type { Libro } from '@/types';
 
 type Props = {
@@ -55,7 +56,8 @@ const hojas = crearHojas((c) =>
 
 export function FilaLibro({ libro, disponibles }: Props) {
   const estilos = useEstilos(hojas);
-  const disponibilidad = disponibles > 0 ? `${disponibles} disponibles` : 'Sin ejemplares';
+  const disponibilidad =
+    disponibles > 0 ? contar(disponibles, 'disponible', 'disponibles') : 'Sin ejemplares';
 
   return (
     <Pressable
