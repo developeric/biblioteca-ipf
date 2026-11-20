@@ -46,7 +46,11 @@ export async function programarRecordatorio(titulo: string): Promise<string> {
 }
 
 export async function cancelarRecordatorio(id: string): Promise<void> {
-  await Notifications.cancelScheduledNotificationAsync(id);
+  try {
+    await Notifications.cancelScheduledNotificationAsync(id);
+  } catch {
+    // Si ya no existe (porque se mostró), no hay nada que cancelar.
+  }
 }
 
 // null si no se pudo consultar (en ese caso no se toca ningún identificador guardado).

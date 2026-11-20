@@ -1,4 +1,8 @@
-import { MAX_HISTORIAL_RECIENTES, USUARIO_ACTUAL } from '@/constants/biblioteca';
+import {
+  CREDENCIALES_PERSONAL,
+  MAX_HISTORIAL_RECIENTES,
+  USUARIO_ACTUAL,
+} from '@/constants/biblioteca';
 import { ESPERAS_INICIALES } from '@/data/esperas';
 import { Cola } from '@/estructuras/Cola';
 import { Pila } from '@/estructuras/Pila';
@@ -206,4 +210,11 @@ export function aPersistido(estado: EstadoBiblioteca): EstadoPersistido {
     recientes: estado.recientes.aArray(),
     avisos: estado.avisos,
   };
+}
+
+export function sonCredencialesValidas(usuario: string, clave: string): boolean {
+  return (
+    usuario.trim().toLowerCase() === CREDENCIALES_PERSONAL.usuario &&
+    clave === CREDENCIALES_PERSONAL.clave
+  );
 }
