@@ -30,7 +30,8 @@ export function NavegadorRaiz() {
       />
       <Stack.Screen name="reserva" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" options={{ title: 'Página no encontrada' }} />
-      <Stack.Protected guard={!sesion}>
+      {/* Al iniciar sesión el login deja de existir y se reemplaza por el mostrador. */}
+      <Stack.Protected guard={!sesion} redirectTo="/mostrador">
         <Stack.Screen
           name="login"
           options={{ presentation: 'modal', title: 'Ingreso del personal' }}

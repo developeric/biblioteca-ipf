@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
@@ -52,6 +53,13 @@ export default function Mostrador() {
     setMensaje(textoEntrega(libro, persona));
   }
 
+  // Primero vuelve al Catálogo y después cierra la sesión: Stack.Protected quita el mostrador del
+  // historial sin tener que redirigir (una redirección haría replace y duplicaría las pestañas).
+  function salir() {
+    router.dismissTo('/');
+    cerrarSesion();
+  }
+
   return (
     <FlatList
       style={estilos.lista}
@@ -75,7 +83,7 @@ export default function Mostrador() {
             titulo="Cerrar sesión"
             icono="log-out-outline"
             variante="peligro"
-            onPress={cerrarSesion}
+            onPress={salir}
           />
         </View>
       }

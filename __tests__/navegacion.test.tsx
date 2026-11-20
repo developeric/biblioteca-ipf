@@ -75,15 +75,13 @@ describe('Navegación de Biblioteca IPF', () => {
     expect(await screen.findByText('Clean Code')).toBeTruthy();
   });
 
-  it('el login se cierra solo y el mostrador entrega al siguiente', async () => {
-    await renderRouter(APP, { initialUrl: '/login' });
+  it('el login se cierra solo, lleva al mostrador y cerrar sesión no deja historial', async () => {
+    await renderRouter(APP, { initialUrl: '/' });
+    await fireEvent.press(await screen.findByText('Personal'));
     await fireEvent.changeText(await screen.findByLabelText('Usuario'), 'biblioteca');
     await fireEvent.changeText(screen.getByLabelText('Clave'), 'ipf2026');
     await fireEvent.press(screen.getByText('Ingresar'));
-    expect(await screen.findByText('Clean Code')).toBeTruthy();
-    await waitFor(() => expect(screen).toHavePathname('/'));
-
-    await testRouter.push('/mostrador');
+    await waitFor(() => expect(screen).toHavePathname('/mostrador'));
     expect(await screen.findByText('Al frente: Lucía Benítez')).toBeTruthy();
     await fireEvent.press(screen.getAllByText('Entregar al siguiente')[0]);
     expect(await screen.findByText('Entregaste “Design Patterns” a Lucía Benítez.')).toBeTruthy();
@@ -92,6 +90,8 @@ describe('Navegación de Biblioteca IPF', () => {
     await fireEvent.press(screen.getByText('Cerrar sesión'));
     expect(await screen.findByText('Clean Code')).toBeTruthy();
     await waitFor(() => expect(screen).toHavePathname('/'));
+    // Ni el login ni el mostrador quedan en la pila: no hay a dónde volver.
+    expect(testRouter.canGoBack()).toBe(false);
   });
 
   it('con la clave incorrecta muestra un mensaje y sigue en el login', async () => {
@@ -123,9 +123,7 @@ describe('Navegación de Biblioteca IPF', () => {
     await fireEvent.changeText(await screen.findByLabelText('Usuario'), 'biblioteca');
     await fireEvent.changeText(screen.getByLabelText('Clave'), 'ipf2026');
     await fireEvent.press(screen.getByText('Ingresar'));
-    await waitFor(() => expect(screen).toHavePathname('/'));
-
-    await testRouter.push('/mostrador');
+    await waitFor(() => expect(screen).toHavePathname('/mostrador'));
     expect(await screen.findByText('Al frente: Vos (la persona que usa esta app)')).toBeTruthy();
     await fireEvent.press(screen.getAllByText('Entregar al siguiente')[2]);
     expect(await screen.findByText(/Entregaste “El Aleph” a la persona que usa esta app/)).toBeTruthy();
