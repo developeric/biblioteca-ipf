@@ -103,6 +103,28 @@ describe('Navegación de Biblioteca IPF', () => {
     await waitFor(() => expect(screen).toHavePathname('/login'));
   });
 
+  it('si el sistema falla al pedir notificaciones, muestra un mensaje y no rompe la app', async () => {
+    const consultar = jest.mocked(Notifications.getPermissionsAsync);
+    const original = consultar.getMockImplementation();
+    consultar.mockResolvedValue({
+      status: PermissionStatus.UNDETERMINED,
+      granted: false,
+      canAskAgain: true,
+      expires: 'never',
+    });
+    jest
+      .mocked(Notifications.requestPermissionsAsync)
+      .mockRejectedValueOnce(new Error('falla nativa simulada'));
+    try {
+      await renderRouter(APP, { initialUrl: `/permisos/notificaciones?isbn=${CLEAN_CODE}` });
+      await fireEvent.press(await screen.findByText('Continuar'));
+      expect(await screen.findByText(/No pudimos activar los recordatorios/)).toBeTruthy();
+      expect(screen.getByText('Volver')).toBeTruthy();
+    } finally {
+      if (original) consultar.mockImplementation(original);
+    }
+  });
+
   // Va al final porque deja el permiso de notificaciones simulado como denegado.
   it('sin permiso de notificaciones, la entrega desde el mostrador llega como aviso', async () => {
     jest.mocked(Notifications.getPermissionsAsync).mockResolvedValue({

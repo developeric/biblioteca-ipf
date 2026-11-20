@@ -515,7 +515,7 @@ return respuesta.canAskAgain ? 'preguntable' : 'bloqueado';
 ```
 
 (`src/lib/permisos.ts`, línea 15). La pantalla previa muestra “Abrir Ajustes” cuando el estado es
-`'bloqueado'` (`src/components/PedidoDePermiso.tsx`, líneas 69–78, que es lo que renderiza la ruta `src/app/permisos/[recurso].tsx`).
+`'bloqueado'` (`src/components/PedidoDePermiso.tsx`, líneas 89–97, que es lo que renderiza la ruta `src/app/permisos/[recurso].tsx`).
 
 Usa el campo **`canAskAgain`**. Con `status` no alcanza porque vale **`denied` en los dos casos**: cuando
 todavía se puede volver a mostrar el diálogo (Android, primera negativa) y cuando el sistema ya no lo va
@@ -558,7 +558,7 @@ mostrar notificaciones requiere el permiso en tiempo de ejecución `POST_NOTIFIC
 asocia el diálogo a los **canales** de la app: si la app todavía no tiene ningún canal creado, el diálogo
 puede no mostrarse y el pedido vuelve como denegado. La documentación de Expo indica crear el canal
 **antes** de pedir el permiso. Además el canal define la importancia, el sonido y el nombre que la persona
-ve en Ajustes (“Préstamos”). Lo hago en `prepararCanal()` (`src/lib/notificaciones.ts`, líneas 19–27), que
+ve en Ajustes (“Préstamos”). Lo hago en `prepararCanal()` (`src/lib/notificaciones.ts`, líneas 20–32), que
 `usePermiso` llama justo antes del pedido (`src/hooks/usePermiso.ts`, líneas 54–60).
 
 **En Android 12** no existe ese permiso en tiempo de ejecución: las notificaciones vienen habilitadas al
@@ -572,7 +572,7 @@ un botón de ícono (✕, con `accessibilityLabel="Descartar aviso"`) para desca
 aparece como préstamo. Este recorrido completo (anotarse con 0 ejemplares, entrar al mostrador,
 entregar y ver el aviso con el permiso denegado) está en `__tests__/navegacion.test.tsx`.
 
-El código que decide (`src/lib/notificaciones.ts`, líneas 67–80):
+El código que decide (`src/lib/notificaciones.ts`, líneas 77–90):
 
 ```ts
 export async function avisarEntrega(titulo: string): Promise<'notificacion' | 'aviso'> {
@@ -853,9 +853,10 @@ ese cambio quedaría en `lib` y `hooks`, y las pantallas solo agregarían su est
 | Se abre `/libro/abc` | Header “Libro no encontrado”, mensaje “Este enlace no corresponde a un libro del catálogo.” + botón “Ir al catálogo”. | `src/hooks/useLibro.ts`, líneas 10–15 y `src/app/(tabs)/(catalogo)/libro/[isbn].tsx`, líneas 39–41 |
 | Se escanea un ISBN que no está en el catálogo | Aviso debajo de la cámara: “El código … no corresponde a ningún libro del catálogo. Probá con otro o escribí el ISBN a mano.” La cámara sigue escaneando. | `src/app/(tabs)/(catalogo)/escanear.tsx`, líneas 53–74 |
 | La cámara está bloqueada | “La cámara está bloqueada para esta app…” + “Abrir Ajustes” y el campo para escribir el ISBN. | `src/app/(tabs)/(catalogo)/escanear.tsx`, líneas 81–115 y `src/lib/permisos.ts`, línea 15 |
-| Las notificaciones están denegadas | En “Mis reservas”: “Las notificaciones están desactivadas: te avisamos acá adentro.” El interruptor queda apagado y las entregas aparecen como avisos dentro de la app. | `src/app/(tabs)/reservas.tsx`, líneas 55–67, `src/components/EncabezadoReservas.tsx`, línea 48, `src/components/PedidoDePermiso.tsx`, líneas 54–61 y `src/context/BibliotecaContext.tsx`, líneas 135–161 |
+| Las notificaciones están denegadas | En “Mis reservas”: “Las notificaciones están desactivadas: te avisamos acá adentro.” El interruptor queda apagado y las entregas aparecen como avisos dentro de la app. | `src/app/(tabs)/reservas.tsx`, líneas 55–67, `src/components/EncabezadoReservas.tsx`, línea 48, `src/components/PedidoDePermiso.tsx`, líneas 59–73 y `src/context/BibliotecaContext.tsx`, líneas 135–161 |
 | Se intenta reservar un libro ya reservado | En el detalle: “Ya tenés este libro en préstamo” o “Ya estás en la lista de espera de este libro, en la posición N”, sin botón “Reservar”. Si se llega a `/reservar/…` por link: el mismo mensaje y “Ver mis reservas”. | `src/app/(tabs)/(catalogo)/libro/[isbn].tsx`, líneas 54–70, `src/app/reservar/[isbn].tsx`, líneas 57–65 y `src/lib/biblioteca.ts`, líneas 88–94 y 60–63 |
 | “Entregar al siguiente” con la lista de espera vacía | El mostrador solo lista libros con espera; cuando una lista se vacía, el libro desaparece. Si no queda ninguno: “No hay libros con lista de espera.” Si se intenta igual, la acción no hace nada y se ve “No hay nadie esperando este libro.” (`Cola.desencolar()` devuelve `undefined`, no lanza error). | `src/app/mostrador.tsx`, líneas 37–54, `src/context/BibliotecaContext.tsx`, líneas 135–161 y `src/estructuras/Cola.ts`, líneas 19–28 |
+| El sistema falla al pedir el permiso de notificaciones (por ejemplo, un error del módulo nativo) | En la pantalla previa: “No pudimos activar los recordatorios en este teléfono. Igual te avisamos dentro de la app, en Mis reservas.” + botón “Volver”. El error técnico no se muestra y la app sigue funcionando. | `src/components/PedidoDePermiso.tsx`, líneas 59–73, y `src/lib/notificaciones.ts`, líneas 20–43 |
 | Login con clave incorrecta | “Usuario o clave incorrectos. Revisalos e intentá de nuevo.” La clave se borra y el foco queda en el formulario. | `src/app/login.tsx`, líneas 56–61 |
 
 ### E4. Decisiones con argumentos

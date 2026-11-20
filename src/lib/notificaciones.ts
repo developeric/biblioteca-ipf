@@ -17,19 +17,29 @@ export function configurarNotificaciones(): void {
 }
 
 // En Android 13+ el canal tiene que existir antes de pedir el permiso.
+// Si el canal no se puede crear, igual se intenta pedir el permiso.
 export async function prepararCanal(): Promise<void> {
   if (Platform.OS !== 'android') return;
-  await Notifications.setNotificationChannelAsync(CANAL_PRESTAMOS, {
-    name: 'Préstamos',
-    description: 'Recordatorios de devolución y avisos de libros listos para retirar.',
-    importance: AndroidImportance.HIGH,
-  });
+  try {
+    await Notifications.setNotificationChannelAsync(CANAL_PRESTAMOS, {
+      name: 'Préstamos',
+      description: 'Recordatorios de devolución y avisos de libros listos para retirar.',
+      importance: AndroidImportance.HIGH,
+    });
+  } catch {
+    // Sin canal propio Android usa el canal por defecto.
+  }
 }
 
 // Consulta el permiso en este momento: la persona puede cambiarlo en Ajustes cuando quiera.
+// Si no se puede consultar, se trata como no permitido y los avisos van dentro de la app.
 export async function notificacionesPermitidas(): Promise<boolean> {
-  const respuesta = await Notifications.getPermissionsAsync();
-  return respuesta.granted;
+  try {
+    const respuesta = await Notifications.getPermissionsAsync();
+    return respuesta.granted;
+  } catch {
+    return false;
+  }
 }
 
 export async function programarRecordatorio(titulo: string): Promise<string> {

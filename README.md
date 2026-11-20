@@ -205,7 +205,7 @@ Ejemplo en Expo Go (Android): `adb shell am start -a android.intent.action.VIEW 
 
 > npm test
 Test Suites: 4 passed, 4 total
-Tests:       24 passed, 24 total
+Tests:       25 passed, 25 total
 ```
 
 ## Capturas

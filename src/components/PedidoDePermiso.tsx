@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { TEXTOS_PERMISO } from '@/constants/permisos';
@@ -50,14 +51,25 @@ export function PedidoDePermiso({ recurso, isbn }: Props) {
   const { estado, pedir, abrirAjustes } = usePermiso(recurso);
   const { activarRecordatorio } = useBiblioteca();
   const textos = TEXTOS_PERMISO[recurso];
+  const [procesando, setProcesando] = useState(false);
+  const [fallo, setFallo] = useState(false);
 
+  // Si el sistema rechaza el pedido o falla la programación, se muestra un mensaje en vez de
+  // dejar escapar el error: la app sigue funcionando con los avisos dentro de la app.
   async function continuar() {
-    const concedido = estado === 'concedido' || (await pedir()).granted;
-    const libro = isbn ? buscarLibroPorIsbn(isbn) : undefined;
-    if (concedido && recurso === 'notificaciones' && libro) {
-      await activarRecordatorio(libro);
+    setProcesando(true);
+    try {
+      const concedido = estado === 'concedido' || (await pedir()).granted;
+      const libro = isbn ? buscarLibroPorIsbn(isbn) : undefined;
+      if (concedido && recurso === 'notificaciones' && libro) {
+        await activarRecordatorio(libro);
+      }
+      router.back();
+    } catch {
+      setFallo(true);
+    } finally {
+      setProcesando(false);
     }
-    router.back();
   }
 
   return (
@@ -65,15 +77,23 @@ export function PedidoDePermiso({ recurso, isbn }: Props) {
       <Stack.Screen options={{ title: textos.titulo }} />
       <Ionicons name={textos.icono} size={TAMANIO.iconoGrande} color={colores.primario} />
       <Text style={estilos.beneficio}>{textos.beneficio}</Text>
-      {estado === 'cargando' ? <EstadoCargando mensaje="Revisando el permiso…" /> : null}
-      {estado === 'bloqueado' ? (
+      {fallo ? (
+        <>
+          <Text style={estilos.bloqueado} accessibilityLiveRegion="polite">
+            {textos.fallo}
+          </Text>
+          <Boton titulo="Volver" variante="secundario" onPress={() => router.back()} />
+        </>
+      ) : null}
+      {!fallo && estado === 'cargando' ? <EstadoCargando mensaje="Revisando el permiso…" /> : null}
+      {!fallo && estado === 'bloqueado' ? (
         <>
           <Text style={estilos.bloqueado}>{textos.bloqueado}</Text>
           <Boton titulo="Abrir Ajustes" icono="settings-outline" onPress={abrirAjustes} />
         </>
       ) : null}
-      {estado === 'preguntable' || estado === 'concedido' ? (
-        <Boton titulo="Continuar" onPress={continuar} />
+      {!fallo && (estado === 'preguntable' || estado === 'concedido') ? (
+        <Boton titulo="Continuar" onPress={continuar} deshabilitado={procesando} />
       ) : null}
     </View>
   );
