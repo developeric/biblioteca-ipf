@@ -30,6 +30,11 @@ export type LibroEnEspera = {
   cantidad: number;
 };
 
+// Una fila de "Mis reservas": un libro no puede estar a la vez en préstamo y en espera.
+export type ItemReserva =
+  | { tipo: 'prestamo'; libro: Libro; prestamo: Prestamo }
+  | { tipo: 'espera'; libro: Libro; posicion: number };
+
 export type EstadoPersistido = {
   prestamos: Prestamo[];
   esperas: Record<string, string[]>;

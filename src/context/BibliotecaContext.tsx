@@ -112,9 +112,13 @@ export function BibliotecaProvider({ children }: Props) {
       if (!(await notificacionesPermitidas())) return false;
       const anterior = estado.prestamos.find((p) => p.isbn === libro.isbn)?.notificacionId;
       if (anterior) await cancelarRecordatorio(anterior);
-      const id = await programarRecordatorio(libro.titulo);
-      dispatch({ tipo: 'asignarNotificacion', isbn: libro.isbn, id });
-      return true;
+      try {
+        const id = await programarRecordatorio(libro.titulo);
+        dispatch({ tipo: 'asignarNotificacion', isbn: libro.isbn, id });
+        return true;
+      } catch {
+        return false;
+      }
     },
     [estado.prestamos],
   );
