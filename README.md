@@ -3,6 +3,10 @@
 Trabajo Práctico N° 4 — App integradora del Taller Complementario React Native II
 (Tecnicatura Superior en Desarrollo de Software Multiplataforma · Instituto Politécnico Formosa).
 
+| Alumno | Fecha de entrega |
+|---|---|
+| Eric Andres Fariña | 20/11/2026 |
+
 App para que los alumnos consulten el catálogo de la biblioteca, reserven libros y reciban un
 recordatorio de devolución, y para que el personal entregue los libros respetando el orden de las
 reservas. Las respuestas de análisis (Partes B a E) están en [`RESPUESTAS.md`](./RESPUESTAS.md).

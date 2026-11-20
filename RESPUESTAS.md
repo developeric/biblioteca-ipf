@@ -1,5 +1,7 @@
 # RESPUESTAS — TP N° 4 · App integradora “Biblioteca IPF”
 
+**Alumno:** Eric Andres Fariña · **Fecha de entrega:** 20/11/2026
+
 Respuestas a las Partes B a E. Todas las referencias son a archivos y líneas de este repositorio.
 Proyecto hecho con **Expo SDK 58** (expo-router 58, React 19.3, React Native 0.88, React Compiler
 activo).
