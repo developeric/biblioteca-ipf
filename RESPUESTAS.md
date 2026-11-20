@@ -643,8 +643,12 @@ funcionaría porque Expo Go ya trae ese módulo, y eso puede engañar.)
 
 **c) ¿Qué no pude verificar del todo en Expo Go?**
 
-- **Los textos de propósito**: Expo Go usa su propio `Info.plist`, así que el diálogo de cámara muestra el
-  texto de Expo Go, no el mío.
+- **Los textos de propósito**: Expo Go usa su propio `Info.plist` y su propio manifiesto, así que los
+  diálogos muestran los textos de Expo Go, no los míos. Lo vi en mi teléfono Android: el diálogo de
+  notificaciones dice “¿Quieres permitir que **Expo Go** te envíe notificaciones?”, y antes del de cámara
+  Expo Go muestra uno propio, en inglés (“Biblioteca IPF needs permissions for accessing camera. You've
+  already granted permission to another Expo experience…”), porque el permiso real lo tiene Expo Go y lo
+  reparte entre los proyectos que abre (capturas `19` y `20` en `capturas/`).
 - **`blockedPermissions`, `recordAudioAndroid: false` y `microphonePermission: false`**: Expo Go usa su
   propio manifiesto, que declara muchos permisos (incluido el micrófono).
 - **El canal “prestamos”**: se crea, pero queda dentro de los ajustes de notificaciones **de Expo Go**, y el

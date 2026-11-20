@@ -210,9 +210,16 @@ Tests:       25 passed, 25 total
 
 ## Capturas
 
-Carpeta [`capturas/`](./capturas). Se tomaron con la app real corriendo en su versión web (React Native
-Web, `npx expo export --platform web`) en un navegador Chromium sin interfaz, con tamaño de celular
-(390 × 844):
+Carpeta [`capturas/`](./capturas). Las de notificaciones y permisos (18 a 20) son del teléfono real
+(Android, Expo Go). Las demás se tomaron con la app corriendo en su versión web (React Native Web,
+`npx expo export --platform web`) en un navegador Chromium sin interfaz, con tamaño de celular
+(390 × 844).
+
+### En el teléfono (Android, Expo Go)
+
+| Notificación recibida | Diálogo de notificaciones (después de la pantalla previa) | Diálogo de cámara de Expo Go |
+|:---:|:---:|:---:|
+| <img src="capturas/18-notificacion-recibida.jpeg" width="220" alt="Notificación de recordatorio recibida"> | <img src="capturas/19-dialogo-notificaciones-android.jpeg" width="220" alt="Diálogo de permiso de notificaciones de Android"> | <img src="capturas/20-dialogo-camara-expo-go.jpeg" width="220" alt="Diálogo de permiso de cámara de Expo Go"> |
 
 ### Catálogo
 
@@ -261,5 +268,10 @@ Aclaraciones sobre cómo se forzaron algunos estados en el navegador:
 - **Escáner concedido**: la imagen verde es la cámara de prueba del navegador, no una cámara real.
 - **Escáner bloqueado**: en web, `expo-camera` siempre responde `canAskAgain: true`, así que se simuló la
   respuesta que da Android después de dos negativas (`denied` y `canAskAgain: false`).
-- **Notificación recibida**: falta. `expo-notifications` no muestra notificaciones locales en web; esa
-  captura hay que tomarla en el teléfono con Expo Go (activar “Recordarme” y esperar 15 segundos).
+- **Notificación recibida**: `expo-notifications` no muestra notificaciones locales en web, así que esa
+  captura (18) es del teléfono: se activó “Recordarme” en dos préstamos y los recordatorios llegaron a
+  los 15 segundos.
+- **Diálogos en Expo Go**: los dos diálogos (19 y 20) muestran el nombre y los textos de **Expo Go**, no
+  los de la app. El de cámara es además un diálogo propio de Expo Go (“You've already granted
+  permission to another Expo experience…”). Con una development build se vería el texto de propósito
+  configurado en `app.json` (ver `RESPUESTAS.md`, D3 c).
