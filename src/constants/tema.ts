@@ -68,6 +68,10 @@ export const RADIO = {
   grande: 16,
 } as const;
 
+export const OPACIDAD = {
+  presionado: 0.7,
+} as const;
+
 export const TAMANIO = {
   areaTactilMinima: 44,
   icono: 24,
