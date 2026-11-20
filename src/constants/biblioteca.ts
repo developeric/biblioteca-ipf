@@ -7,6 +7,9 @@ export const CANAL_PRESTAMOS = 'prestamos';
 
 export const MAX_RECIENTES = 3;
 
+// Tope de libros que se guardan en la pila de recientes para que no crezca sin límite.
+export const MAX_HISTORIAL_RECIENTES = 20;
+
 export const DEMORA_BUSQUEDA_MS = 300;
 
 export const DEMORA_GUARDADO_MS = 250;
