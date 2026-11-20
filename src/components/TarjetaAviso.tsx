@@ -7,7 +7,7 @@ import { useEstilos } from '@/hooks/useEstilos';
 import { crearHojas } from '@/lib/estilos';
 import type { Aviso } from '@/types/biblioteca';
 
-import { Boton } from './Boton';
+import { BotonIcono } from './BotonIcono';
 
 type Props = {
   aviso: Aviso;
@@ -17,14 +17,14 @@ type Props = {
 const hojas = crearHojas((c) =>
   StyleSheet.create({
     tarjeta: {
+      flexDirection: 'row',
+      alignItems: 'center',
       gap: ESPACIO.md,
-      padding: ESPACIO.lg,
+      paddingVertical: ESPACIO.sm,
+      paddingLeft: ESPACIO.lg,
+      paddingRight: ESPACIO.xs,
       borderRadius: RADIO.normal,
       backgroundColor: c.avisoFondo,
-    },
-    fila: {
-      flexDirection: 'row',
-      gap: ESPACIO.md,
     },
     texto: {
       flex: 1,
@@ -41,11 +41,9 @@ export function TarjetaAviso({ aviso, onDescartar }: Props) {
 
   return (
     <View style={estilos.tarjeta} accessibilityLiveRegion="polite">
-      <View style={estilos.fila}>
-        <Ionicons name="notifications" size={TAMANIO.icono} color={colores.avisoTexto} />
-        <Text style={estilos.texto}>{aviso.texto}</Text>
-      </View>
-      <Boton titulo="Entendido" variante="secundario" onPress={() => onDescartar(aviso.id)} />
+      <Ionicons name="notifications" size={TAMANIO.icono} color={colores.avisoTexto} />
+      <Text style={estilos.texto}>{aviso.texto}</Text>
+      <BotonIcono icono="close" etiqueta="Descartar aviso" onPress={() => onDescartar(aviso.id)} />
     </View>
   );
 }

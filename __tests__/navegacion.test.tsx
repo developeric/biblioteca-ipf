@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { PermissionStatus } from 'expo';
+import * as Notifications from 'expo-notifications';
 import { fireEvent, renderRouter, screen, testRouter, waitFor } from 'expo-router/testing-library';
 
 // API sin demora ni fallos al azar, para que las pruebas sean repetibles.
@@ -99,5 +101,40 @@ describe('Navegación de Biblioteca IPF', () => {
     await fireEvent.press(screen.getByText('Ingresar'));
     expect(await screen.findByText(/Usuario o clave incorrectos/)).toBeTruthy();
     await waitFor(() => expect(screen).toHavePathname('/login'));
+  });
+
+  // Va al final porque deja el permiso de notificaciones simulado como denegado.
+  it('sin permiso de notificaciones, la entrega desde el mostrador llega como aviso', async () => {
+    jest.mocked(Notifications.getPermissionsAsync).mockResolvedValue({
+      status: PermissionStatus.DENIED,
+      granted: false,
+      canAskAgain: true,
+      expires: 'never',
+    });
+    const EL_ALEPH = '9789507310010'; // 0 ejemplares y nadie esperando
+
+    await renderRouter(APP, { initialUrl: `/reservar/${EL_ALEPH}` });
+    expect(await screen.findByText(/en la posición 1/)).toBeTruthy();
+    await fireEvent.press(screen.getByText('Anotarme en la lista de espera'));
+    expect(await screen.findByText('Tu posición: 1')).toBeTruthy();
+    expect(screen.getByText(/te avisamos acá adentro/)).toBeTruthy();
+
+    await testRouter.push('/login');
+    await fireEvent.changeText(await screen.findByLabelText('Usuario'), 'biblioteca');
+    await fireEvent.changeText(screen.getByLabelText('Clave'), 'ipf2026');
+    await fireEvent.press(screen.getByText('Ingresar'));
+    await waitFor(() => expect(screen).toHavePathname('/'));
+
+    await testRouter.push('/mostrador');
+    expect(await screen.findByText('Al frente: Vos (la persona que usa esta app)')).toBeTruthy();
+    await fireEvent.press(screen.getAllByText('Entregar al siguiente')[2]);
+    expect(await screen.findByText(/Entregaste “El Aleph” a la persona que usa esta app/)).toBeTruthy();
+    expect(Notifications.scheduleNotificationAsync).not.toHaveBeenCalledWith(
+      expect.objectContaining({ content: expect.objectContaining({ title: '¡Tu libro está listo!' }) }),
+    );
+
+    await testRouter.navigate('/reservas');
+    expect(await screen.findByText(/Ya podés retirar “El Aleph” en el mostrador/)).toBeTruthy();
+    expect(screen.getByText('Devolver')).toBeTruthy();
   });
 });
