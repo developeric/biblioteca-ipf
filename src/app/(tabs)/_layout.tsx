@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router/js-tabs';
 
+import { IconoPestania } from '@/components/IconoPestania';
 import { useColores } from '@/hooks/useColores';
 
 export const unstable_settings = {
@@ -8,16 +8,16 @@ export const unstable_settings = {
 };
 
 type PropsIcono = {
-  color: string;
+  focused: boolean;
   size: number;
 };
 
-function iconoCatalogo({ color, size }: PropsIcono) {
-  return <Ionicons name="library-outline" color={color} size={size} />;
+function iconoCatalogo({ focused, size }: PropsIcono) {
+  return <IconoPestania nombre="library-outline" enfocada={focused} tamanio={size} />;
 }
 
-function iconoReservas({ color, size }: PropsIcono) {
-  return <Ionicons name="bookmarks-outline" color={color} size={size} />;
+function iconoReservas({ focused, size }: PropsIcono) {
+  return <IconoPestania nombre="bookmarks-outline" enfocada={focused} tamanio={size} />;
 }
 
 export default function LayoutTabs() {
