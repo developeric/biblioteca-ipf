@@ -1,7 +1,7 @@
 import type { Libro } from '../types';
 
-// Los primeros nueve libros tienen su ISBN real (se pueden escanear con un ejemplar en la mano).
-// Los de literatura usan códigos de ejemplo de 13 dígitos con dígito verificador válido.
+// Los primeros nueve libros y los tres últimos tienen su ISBN real (se pueden escanear con un ejemplar
+// en la mano). Los de literatura del medio usan códigos de ejemplo con dígito verificador válido.
 export const LIBROS: Libro[] = [
   {
     isbn: '9780132350884',
@@ -121,5 +121,26 @@ export const LIBROS: Libro[] = [
     autor: 'Horacio Quiroga',
     anio: 1918,
     ejemplares: 1,
+  },
+  {
+    isbn: '9789500216388',
+    titulo: 'La metamorfosis',
+    autor: 'Franz Kafka',
+    anio: 2025,
+    ejemplares: 2,
+  },
+  {
+    isbn: '9788411184069',
+    titulo: 'Prótesis Dental I: guía de prácticas de laboratorio',
+    autor: 'Lucía Fernández, José Félix Mañes y otros',
+    anio: 2024,
+    ejemplares: 1,
+  },
+  {
+    isbn: '9788499985534',
+    titulo: 'Wigetta y los gusanos guasones',
+    autor: 'Vegetta777 y Willyrex',
+    anio: 2016,
+    ejemplares: 0,
   },
 ];

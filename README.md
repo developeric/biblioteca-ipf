@@ -40,10 +40,17 @@ Escaneá el código QR con **Expo Go** (Android o iOS) en un teléfono conectado
 **Credenciales del personal** (fijas en `src/constants/biblioteca.ts`): usuario `biblioteca`, clave
 `ipf2026`.
 
-**Libros para probar el escáner:** los primeros nueve libros de `src/data/libros.ts` tienen su ISBN
-real (por ejemplo *Clean Code* `9780132350884` y *Refactoring* `9780134757599`). Si no tenés esos libros
-a mano, reemplazá dos entradas por libros que tengas, con el ISBN-13 de la contratapa (13 dígitos, sin
-guiones).
+**Libros para probar el escáner:** tienen su ISBN real los primeros nueve libros de
+`src/data/libros.ts` y estos tres, agregados para escanear ejemplares propios:
+
+| Libro | Edición | ISBN |
+|---|---|---|
+| *La metamorfosis* (Franz Kafka) | El Ateneo, 2025 | `9789500216388` |
+| *Prótesis Dental I: guía de prácticas de laboratorio* | Universitat de València, 2024 | `9788411184069` |
+| *Wigetta y los gusanos guasones* (Vegetta777 y Willyrex) | Temas de Hoy, 2016 | `9788499985534` |
+
+Cada edición tiene su propio ISBN: si tu ejemplar es de otra editorial, cambiá el ISBN en
+`src/data/libros.ts` por el de la contratapa (13 dígitos, sin guiones).
 
 ## Árbol de rutas (`src/app`) y navegador de cada `_layout`
 
