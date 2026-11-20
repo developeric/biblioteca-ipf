@@ -206,6 +206,32 @@ Tests:       24 passed, 24 total
 
 ## Capturas
 
-Pendientes de agregar desde el teléfono (carpeta `capturas/`): Catálogo cargando, con error y con datos;
-buscador; detalle inexistente; reserva con y sin ejemplares; escáner en sus cuatro estados; notificación
-recibida; mostrador antes y después de “Entregar al siguiente”; pantalla 404.
+Carpeta [`capturas/`](./capturas). Se tomaron con la app real corriendo en su versión web (React Native
+Web, `npx expo export --platform web`) en un navegador Chromium sin interfaz, con tamaño de celular
+(390 × 844):
+
+| Archivo | Qué muestra |
+|---|---|
+| `01-catalogo-cargando.png` | Catálogo mientras responde la API (800 ms) |
+| `02-catalogo-error.png` | Catálogo con error y “Reintentar” (se forzó el fallo de la API simulada) |
+| `03-catalogo-con-datos.png` | Catálogo con datos y “Vistos recientemente” |
+| `04-buscador.png` | Buscador con `q=borges` |
+| `05-detalle-inexistente.png` | `/libro/123` |
+| `06-detalle-libro.png` | Detalle de *La metamorfosis* |
+| `07-reserva-con-ejemplares.png`, `08-reserva-sin-ejemplares.png` | Confirmación con y sin ejemplares |
+| `09-mis-reservas.png` | Un préstamo y una reserva en espera |
+| `10-escaner-cargando.png`, `11-escaner-preguntable.png`, `12-escaner-concedido.png`, `13-escaner-bloqueado.png` | Escáner en sus cuatro estados |
+| `11b-pantalla-previa-camara.png` | Pantalla previa al permiso de cámara |
+| `13b-login.png`, `14-mostrador-antes.png`, `15-mostrador-despues.png` | Login y mostrador antes y después de “Entregar al siguiente” |
+| `16-aviso-dentro-de-la-app.png` | Entrega sin permiso de notificaciones: aviso dentro de la app |
+| `17-pagina-404.png` | Pantalla 404 |
+
+Aclaraciones sobre cómo se forzaron algunos estados en el navegador:
+
+- **Escáner cargando**: se dejó pendiente la consulta del permiso para poder fotografiar ese estado,
+  que en el teléfono dura un instante.
+- **Escáner concedido**: la imagen verde es la cámara de prueba del navegador, no una cámara real.
+- **Escáner bloqueado**: en web, `expo-camera` siempre responde `canAskAgain: true`, así que se simuló la
+  respuesta que da Android después de dos negativas (`denied` y `canAskAgain: false`).
+- **Notificación recibida**: falta. `expo-notifications` no muestra notificaciones locales en web; esa
+  captura hay que tomarla en el teléfono con Expo Go (activar “Recordarme” y esperar 15 segundos).
