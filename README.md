@@ -235,3 +235,5 @@ Aclaraciones sobre cómo se forzaron algunos estados en el navegador:
   respuesta que da Android después de dos negativas (`denied` y `canAskAgain: false`).
 - **Notificación recibida**: falta. `expo-notifications` no muestra notificaciones locales en web; esa
   captura hay que tomarla en el teléfono con Expo Go (activar “Recordarme” y esperar 15 segundos).
+#   b i b l i o t e c a - i p f  
+ 
