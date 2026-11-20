@@ -210,21 +210,45 @@ Carpeta [`capturas/`](./capturas). Se tomaron con la app real corriendo en su ve
 Web, `npx expo export --platform web`) en un navegador Chromium sin interfaz, con tamaño de celular
 (390 × 844):
 
-| Archivo | Qué muestra |
-|---|---|
-| `01-catalogo-cargando.png` | Catálogo mientras responde la API (800 ms) |
-| `02-catalogo-error.png` | Catálogo con error y “Reintentar” (se forzó el fallo de la API simulada) |
-| `03-catalogo-con-datos.png` | Catálogo con datos y “Vistos recientemente” |
-| `04-buscador.png` | Buscador con `q=borges` |
-| `05-detalle-inexistente.png` | `/libro/123` |
-| `06-detalle-libro.png` | Detalle de *La metamorfosis* |
-| `07-reserva-con-ejemplares.png`, `08-reserva-sin-ejemplares.png` | Confirmación con y sin ejemplares |
-| `09-mis-reservas.png` | Un préstamo y una reserva en espera |
-| `10-escaner-cargando.png`, `11-escaner-preguntable.png`, `12-escaner-concedido.png`, `13-escaner-bloqueado.png` | Escáner en sus cuatro estados |
-| `11b-pantalla-previa-camara.png` | Pantalla previa al permiso de cámara |
-| `13b-login.png`, `14-mostrador-antes.png`, `15-mostrador-despues.png` | Login y mostrador antes y después de “Entregar al siguiente” |
-| `16-aviso-dentro-de-la-app.png` | Entrega sin permiso de notificaciones: aviso dentro de la app |
-| `17-pagina-404.png` | Pantalla 404 |
+### Catálogo
+
+| Cargando | Con error | Con datos |
+|:---:|:---:|:---:|
+| <img src="capturas/01-catalogo-cargando.png" width="220" alt="Catálogo cargando"> | <img src="capturas/02-catalogo-error.png" width="220" alt="Catálogo con error"> | <img src="capturas/03-catalogo-con-datos.png" width="220" alt="Catálogo con datos"> |
+
+### Buscador y detalle
+
+| Buscador (`q=borges`) | Detalle | Detalle inexistente (`/libro/123`) |
+|:---:|:---:|:---:|
+| <img src="capturas/04-buscador.png" width="220" alt="Buscador"> | <img src="capturas/06-detalle-libro.png" width="220" alt="Detalle de La metamorfosis"> | <img src="capturas/05-detalle-inexistente.png" width="220" alt="Detalle inexistente"> |
+
+### Reservas
+
+| Con ejemplares | Sin ejemplares | Mis reservas |
+|:---:|:---:|:---:|
+| <img src="capturas/07-reserva-con-ejemplares.png" width="220" alt="Reserva con ejemplares"> | <img src="capturas/08-reserva-sin-ejemplares.png" width="220" alt="Reserva sin ejemplares"> | <img src="capturas/09-mis-reservas.png" width="220" alt="Mis reservas"> |
+
+### Escáner: los cuatro estados
+
+| Cargando | Preguntable | Concedido | Bloqueado |
+|:---:|:---:|:---:|:---:|
+| <img src="capturas/10-escaner-cargando.png" width="170" alt="Escáner cargando"> | <img src="capturas/11-escaner-preguntable.png" width="170" alt="Escáner preguntable"> | <img src="capturas/12-escaner-concedido.png" width="170" alt="Escáner concedido"> | <img src="capturas/13-escaner-bloqueado.png" width="170" alt="Escáner bloqueado"> |
+
+| Pantalla previa al permiso |
+|:---:|
+| <img src="capturas/11b-pantalla-previa-camara.png" width="220" alt="Pantalla previa de cámara"> |
+
+### Personal de biblioteca
+
+| Login | Mostrador antes | Mostrador después de “Entregar al siguiente” |
+|:---:|:---:|:---:|
+| <img src="capturas/13b-login.png" width="220" alt="Login"> | <img src="capturas/14-mostrador-antes.png" width="220" alt="Mostrador antes"> | <img src="capturas/15-mostrador-despues.png" width="220" alt="Mostrador después"> |
+
+### Avisos y 404
+
+| Aviso dentro de la app (sin permiso de notificaciones) | Página 404 |
+|:---:|:---:|
+| <img src="capturas/16-aviso-dentro-de-la-app.png" width="220" alt="Aviso dentro de la app"> | <img src="capturas/17-pagina-404.png" width="220" alt="Página 404"> |
 
 Aclaraciones sobre cómo se forzaron algunos estados en el navegador:
 
@@ -235,5 +259,3 @@ Aclaraciones sobre cómo se forzaron algunos estados en el navegador:
   respuesta que da Android después de dos negativas (`denied` y `canAskAgain: false`).
 - **Notificación recibida**: falta. `expo-notifications` no muestra notificaciones locales en web; esa
   captura hay que tomarla en el teléfono con Expo Go (activar “Recordarme” y esperar 15 segundos).
-#   b i b l i o t e c a - i p f  
- 
